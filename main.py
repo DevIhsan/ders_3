@@ -7,6 +7,9 @@ from sqlalchemy import create_engine, Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from passlib.hash import sha256_crypt
+import anasayfa
+from ders_atama import *
+#from API import *
 
 # SQLite veritabanı oluşturma
 engine = create_engine('sqlite:///user.db', echo=False)
@@ -27,7 +30,7 @@ app.title("Login")
 app.geometry("1000x600")
 
 # Arka plan resmini eklemek için ImageTk kullanımı
-bg_image = Image.open("images/ww.jpeg")  # Arka plan resmi dosyasının adını ve yolunu belirtin
+bg_image = Image.open("images/img.jpg")  # Arka plan resmi dosyasının adını ve yolunu belirtin
 bg_image = bg_image.resize((1000, 600), Image.BILINEAR)  # Resmi pencere boyutuna uygun olarak yeniden boyutlandırın
 bg_image = ImageTk.PhotoImage(bg_image)
 
@@ -72,8 +75,10 @@ def save_user():
 
 # Kullanıcının veritabanına giriş işlemi
 def login():
+    global app
     username = username_entry.get()
     password = password_entry.get()
+    
 
     # SQLAlchemy ile kullanıcı bilgilerini veritabanından sorgulama
     Session = sessionmaker(bind=engine)
@@ -86,6 +91,7 @@ def login():
         liste = app.place_slaves()
         for l in liste:
             l.destroy() # yok et
+        anasayfa.make_widgets(app)    
 
         if user.username == "ihsan":
             admin_wn = Uygulama()
@@ -113,13 +119,14 @@ save_button.place(x=800,y=450)
 
 login_button = tk.Button(app, text="Giriş   ", command=login, font=("Helvetica", 16))
 login_button.place(x=700,y=450)
-
 yemek_önerileri = tk.Button(app, text="Yemek Önerileri", command=app)
 yemek_önerileri.pack()
 
+chat_image = Image.open("images/chat.jpg").resize((150, 150))
+chat_photo = ImageTk.PhotoImage(chat_image)
 
 
-    
+
 
 
 
